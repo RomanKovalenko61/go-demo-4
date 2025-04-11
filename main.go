@@ -19,7 +19,7 @@ func main() {
 		login: login,
 	}
 
-	outputPassword(myAccount)
+	outputPassword(&myAccount)
 }
 
 func promptData(prompt string) string{
@@ -29,6 +29,6 @@ func promptData(prompt string) string{
 	return res
 }
 
-func outputPassword(acc account) {
+func outputPassword(acc *account) {
 	fmt.Println(acc.login, acc.password, acc.url)
 }
