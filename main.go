@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand/v2"
+	"net/url"
 )
 
 type account struct {
@@ -24,13 +26,16 @@ func (acc account) outputPassword() {
 	fmt.Println(acc.login, acc.password, acc.url)
 }
 
-func newAccount(login, password, url string) *account {
-	// validation fields
+func newAccount(login, password, urlString string) (*account, error) {
+	_, err := url.ParseRequestURI(urlString)
+	if err != nil {
+		return nil, errors.New("INVALID_URL")
+	}
 	return &account{
-		url: url,
+		url: urlString,
 		login: login,
 		password: password,
-	}
+	}, nil
 }
 
 func main() {
@@ -38,7 +43,11 @@ func main() {
 	password := promptData("Введите пароль")
 	url := promptData("Введите URL")
 
-	myAccount := newAccount(login, password, url)
+	myAccount, err := newAccount(login, password, url)
+	if err != nil {
+		fmt.Println("Неверный формат URL")
+		return
+	}
 	//myAccount.generatePassword(10)
 	myAccount.outputPassword()
 }
