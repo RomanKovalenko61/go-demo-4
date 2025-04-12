@@ -24,15 +24,22 @@ func (acc account) outputPassword() {
 	fmt.Println(acc.login, acc.password, acc.url)
 }
 
-func main() {
-	login := promptData("Введите логин")
-	url := promptData("Введите URL")
-
-	myAccount := account{
+func newAccount(login, password, url string) *account {
+	// validation fields
+	return &account{
 		url: url,
 		login: login,
+		password: password,
 	}
-	myAccount.generatePassword(10)
+}
+
+func main() {
+	login := promptData("Введите логин")
+	password := promptData("Введите пароль")
+	url := promptData("Введите URL")
+
+	myAccount := newAccount(login, password, url)
+	//myAccount.generatePassword(10)
 	myAccount.outputPassword()
 }
 
