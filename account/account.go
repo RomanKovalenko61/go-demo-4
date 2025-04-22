@@ -6,6 +6,8 @@ import (
 	"math/rand/v2"
 	"net/url"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 type Account struct {
@@ -29,7 +31,8 @@ func (acc *Account) generatePassword(n int) {
 	acc.password = string(pass)
 }
 
-func (acc Account) OutputPassword() {
+func (acc *Account) OutputPassword() {
+	color.Cyan(acc.login)
 	fmt.Println(acc.login, acc.password, acc.url)
 }
 
