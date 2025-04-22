@@ -13,6 +13,7 @@ func WriteFile(content string, name string) {
 	file, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	_, err = file.WriteString(content)
 	if err != nil {
