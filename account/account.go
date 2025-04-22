@@ -1,26 +1,26 @@
 package account
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
 	"net/url"
-	"reflect"
 	"time"
 
 	"github.com/fatih/color"
 )
 
 type Account struct {
-	login    string `json:"login" xml:"test"`
-	password string
-	url      string
+	Login     string    `json:"login"`
+	Password  string    `json:"password"`
+	Url       string    `json:"url"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-type AccountWithTimeStamp struct {
-	createdAt time.Time
-	updatedAt time.Time
-	Account   // acc account
+func (acc *Account) ToBytes() ([]byte, error) {
+	return json.Marshal(acc)
 }
 
 func (acc *Account) generatePassword(n int) {
@@ -29,15 +29,15 @@ func (acc *Account) generatePassword(n int) {
 	for index := range pass {
 		pass[index] = runes[rand.IntN(len(runes))]
 	}
-	acc.password = string(pass)
+	acc.Password = string(pass)
 }
 
 func (acc *Account) OutputPassword() {
-	color.Cyan(acc.login)
-	fmt.Println(acc.login, acc.password, acc.url)
+	color.Cyan(acc.Login)
+	fmt.Println(acc.Login, acc.Password, acc.Url)
 }
 
-func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTimeStamp, error) {
+func NewAccount(login, password, urlString string) (*Account, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}
@@ -45,17 +45,13 @@ func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTim
 	if err != nil {
 		return nil, errors.New("INVALID_URL")
 	}
-	newAcc := AccountWithTimeStamp{
-		createdAt: time.Now(),
-		updatedAt: time.Now(),
-		Account: Account{
-			url:      urlString,
-			login:    login,
-			password: password,
-		},
+	newAcc := Account{
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		Url:       urlString,
+		Login:     login,
+		Password:  password,
 	}
-	field, _ := reflect.TypeOf(newAcc).FieldByName("login")
-	fmt.Println(string(field.Tag))
 	if password == "" {
 		newAcc.generatePassword(10)
 	}

@@ -7,23 +7,28 @@ import (
 )
 
 func main() {
-	files.ReadFile()
-	files.WriteFile("Привет! Я фаил", "file.txt")
+	createAccount()
+}
+
+func createAccount() {
 	login := promptData("Введите логин")
 	password := promptData("Введите пароль")
 	url := promptData("Введите URL")
 
-	myAccount, err := account.NewAccountWithTimeStamp(login, password, url)
+	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
 		fmt.Println("Неверный формат Login или URL")
 		return
 	}
-	myAccount.OutputPassword()
-	
-	fmt.Println(myAccount)
+	file, err := myAccount.ToBytes()
+	if err != nil {
+		fmt.Println("Не удалось преобразовать в JSON")
+		return
+	}
+	files.WriteFile(file, "data.json")
 }
 
-func promptData(prompt string) string{
+func promptData(prompt string) string {
 	fmt.Print(prompt + " : ")
 	var res string
 	fmt.Scanln(&res)
