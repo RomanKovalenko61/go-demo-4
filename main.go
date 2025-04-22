@@ -1,6 +1,7 @@
 package main
 
 import (
+	"demo/password/account"
 	"fmt"
 )
 
@@ -9,11 +10,12 @@ func main() {
 	password := promptData("Введите пароль")
 	url := promptData("Введите URL")
 
-	myAccount, err := newAccountWithTimeStamp(login, password, url)
+	myAccount, err := account.NewAccountWithTimeStamp(login, password, url)
 	if err != nil {
 		fmt.Println("Неверный формат Login или URL")
 		return
 	}
+	myAccount.OutputPassword()
 	fmt.Println(myAccount)
 }
 
