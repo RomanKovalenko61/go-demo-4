@@ -19,9 +19,9 @@ Menu:
 		case 1:
 			createAccount()
 		case 2:
-			searchAccount()
+			findAccount()
 		case 3:
-			removeAccount()
+			deleteAccount()
 		default:
 			break Menu
 		}
@@ -45,19 +45,21 @@ func createAccount() {
 		fmt.Println("Неверный формат Login или URL")
 		return
 	}
-	file, err := myAccount.ToBytes()
+	vault := account.NewVault()
+	vault.AddAccount(*myAccount)
+	data, err := vault.ToBytes()
 	if err != nil {
 		fmt.Println("Не удалось преобразовать в JSON")
 		return
 	}
-	files.WriteFile(file, "data.json")
+	files.WriteFile(data, "data.json")
 }
 
-func searchAccount() {
+func findAccount() {
 
 }
 
-func removeAccount() {
+func deleteAccount() {
 
 }
 

@@ -1,7 +1,6 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
@@ -17,10 +16,6 @@ type Account struct {
 	Url       string    `json:"url"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-}
-
-func (acc *Account) ToBytes() ([]byte, error) {
-	return json.Marshal(acc)
 }
 
 func (acc *Account) generatePassword(n int) {
