@@ -69,10 +69,10 @@ func (vault *Vault) ToBytes() ([]byte, error) {
 	return json.Marshal(vault)
 }
 
-func (vault *VaultWithDb) FindAccountsByUrl(url string) []Account {
+func (vault *VaultWithDb) FindAccounts(str string, checker func(Account, string) bool) []Account {
 	var accounts []Account
 	for _, acc := range vault.Accounts {
-		if strings.Contains(acc.Url, url) {
+		if checker(acc, str) {
 			accounts = append(accounts, acc)
 		}
 	}
