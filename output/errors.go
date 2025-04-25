@@ -33,3 +33,7 @@ func PrintError(value any) {
 	// 	color.Red("Неизвестный тип ошибки")
 	// }
 }
+
+func sum[T int | float32 | float64 | string](a, b T) T {
+	return a + b
+}
