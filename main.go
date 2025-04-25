@@ -3,12 +3,15 @@ package main
 import (
 	"demo/password/account"
 	"demo/password/files"
+	"demo/password/output"
 	"fmt"
 
 	"github.com/fatih/color"
 )
 
 func main() {
+	output.PrintError(1)
+	output.PrintError("sdsd")
 	fmt.Println("___ Мненджер паролей ___")
 	vault := account.GetVault(files.NewJsonDB("data.json"))
 Menu:
