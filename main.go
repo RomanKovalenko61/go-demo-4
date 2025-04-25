@@ -44,7 +44,7 @@ func createAccount(vault *account.VaultWithDb) {
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
-		fmt.Println("Неверный формат Login или URL")
+		output.PrintError("Неверный формат Login или URL")
 		return
 	}
 	vault.AddAccount(*myAccount)
@@ -54,7 +54,7 @@ func findAccount(vault *account.VaultWithDb) {
 	url := promptData("Введите URL для поиска аккаунта")
 	accounts := vault.FindAccountsByUrl(url)
 	if len(accounts) == 0 {
-		color.Red("Аккаунтов не найдено")
+		output.PrintError("Аккаунтов не найдено")
 	}
 	for _, acc := range accounts {
 		acc.Output()
@@ -67,7 +67,7 @@ func deleteAccount(vault *account.VaultWithDb) {
 	if result {
 		color.Green("Удалено")
 	} else {
-		color.Red("Не найдено")
+		output.PrintError("Не найдено")
 	}
 }
 
