@@ -1,8 +1,6 @@
 package output
 
 import (
-	"demo/password/account"
-
 	"github.com/fatih/color"
 )
 
@@ -40,6 +38,18 @@ func PrintError(value any) {
 // 	return a + b
 // }
 
-func sum[T account.Account](a, b T) T {
-	return a
-}
+// func sum[T int | string](a, b T) T {
+// 	switch d := any(a).(type) {
+// 	case string:
+// 		fmt.Println(d)
+// 	}
+// 	return a + b
+// }
+
+// type List[T any] struct {
+// 	elements []T
+// }
+
+// func(l *List[T]) addElement {
+
+// }
