@@ -1,6 +1,8 @@
 package output
 
 import (
+	"demo/password/account"
+
 	"github.com/fatih/color"
 )
 
@@ -34,6 +36,10 @@ func PrintError(value any) {
 	// }
 }
 
-func sum[T int | float32 | float64 | string](a, b T) T {
-	return a + b
+// func sum[T int | float32 | float64 | string](a, b T) T {
+// 	return a + b
+// }
+
+func sum[T account.Account](a, b T) T {
+	return a
 }
