@@ -5,6 +5,7 @@ import (
 	"demo/password/files"
 	"demo/password/output"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/fatih/color"
@@ -36,6 +37,14 @@ var menuVariants = []string{
 
 func main() {
 	fmt.Println("___ Мненджер паролей ___")
+	res := os.Getenv("VAR")
+	fmt.Println(res)
+
+	for _, e := range os.Environ() {
+		pair := strings.SplitN(e, "=", 2)
+		fmt.Println(pair)
+	}
+
 	vault := account.GetVault(files.NewJsonDB("data.json"))
 	//counter := menuCounter()
 Menu:
