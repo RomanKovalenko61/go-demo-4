@@ -17,19 +17,21 @@ var menu = map[string]func(*account.VaultWithDb){
 	"4": deleteAccount,
 }
 
+var menuVariants = []string{
+	"1 - Создать аккаунт",
+	"2 - Найти аккаунт по URL",
+	"3 - Найти аккаунт по логину",
+	"4 - Удалить аккаунт",
+	"5 - выход",
+	"Выберите действие",
+}
+
 func main() {
 	fmt.Println("___ Мненджер паролей ___")
 	vault := account.GetVault(files.NewJsonDB("data.json"))
 Menu:
 	for {
-		variant := promptData([]string{
-			"1 - Создать аккаунт",
-			"2 - Найти аккаунт по URL",
-			"3 - Найти аккаунт по логину",
-			"4 - Удалить аккаунт",
-			"5 - выход",
-			"Выберите действие",
-		})
+		variant := promptData(menuVariants...)
 		menuFunc := menu[variant]
 		if menuFunc == nil {
 			break Menu
@@ -39,9 +41,9 @@ Menu:
 }
 
 func createAccount(vault *account.VaultWithDb) {
-	login := promptData([]string{"Введите логин"})
-	password := promptData([]string{"Введите пароль"})
-	url := promptData([]string{"Введите URL"})
+	login := promptData("Введите логин")
+	password := promptData("Введите пароль")
+	url := promptData("Введите URL")
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
@@ -52,7 +54,7 @@ func createAccount(vault *account.VaultWithDb) {
 }
 
 func findAccountByUrl(vault *account.VaultWithDb) {
-	url := promptData([]string{"Введите URL для поиска аккаунта"})
+	url := promptData("Введите URL для поиска аккаунта")
 	accounts := vault.FindAccounts(url, func(acc account.Account, str string) bool {
 		return strings.Contains(acc.Url, str)
 	})
@@ -60,7 +62,7 @@ func findAccountByUrl(vault *account.VaultWithDb) {
 }
 
 func findAccountByLogin(vault *account.VaultWithDb) {
-	login := promptData([]string{"Введите логин для поиска аккаунта"})
+	login := promptData("Введите логин для поиска аккаунта")
 	accounts := vault.FindAccounts(login, func(acc account.Account, str string) bool {
 		return strings.Contains(acc.Login, str)
 	})
@@ -77,7 +79,7 @@ func outputResult(accounts *[]account.Account) {
 }
 
 func deleteAccount(vault *account.VaultWithDb) {
-	url := promptData([]string{"Введите URL для поиска аккаунта"})
+	url := promptData("Введите URL для поиска аккаунта")
 	result := vault.DeleteAccountByUrl(url)
 	if result {
 		color.Green("Удалено")
@@ -86,7 +88,7 @@ func deleteAccount(vault *account.VaultWithDb) {
 	}
 }
 
-func promptData[T any](prompt []T) string {
+func promptData(prompt ...string) string {
 	for indx, el := range prompt {
 		if indx == len(prompt)-1 {
 			fmt.Printf("%v: ", el)
